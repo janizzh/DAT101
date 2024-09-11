@@ -72,7 +72,12 @@ printOut(newLine);
 
 printOut("--- Task 6 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
+let text = 'There is much between heaven and earth that we do not understand'
+alert(text.length); // gives us 64 characters with spaces, without spaces 53.
+let Number19 = text.slice(19); // slice command gives a specific part of characters of a string.
+alert(Number19)
+
+printOut("The text has 64 characters with spaces, without spaces 53, the 19th letter in the string is: i");
 printOut(newLine);
 
 printOut("--- Task 7 ----------------------------------------------------------------------------------------------");
