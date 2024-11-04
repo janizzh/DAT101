@@ -41,7 +41,7 @@ printOut(newLine);
 
 printOut("--- Part 7 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-let MPSize2 = Math.floor((Math.random() * 8) + 1);
+let MPSize2 = Math.floor((Math.random() * 8) + 1); 
 if (MPSize2 >= 4) {
  printOut("Thank you");
 } else if (MPSize2 >= 6) { // add else if statement to include Image is too large if MPSize is greater than or equal to 6
