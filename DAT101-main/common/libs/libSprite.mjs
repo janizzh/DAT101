@@ -1,5 +1,5 @@
 "use strict";
-
+import lib2d from "./lib2d.mjs";
 /**
  * @library libSprite
  * @description A library for classes that manage sprite animations.
