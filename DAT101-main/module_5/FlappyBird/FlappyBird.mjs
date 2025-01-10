@@ -1,13 +1,14 @@
 "use strict";
 import libSound from "../../common/libs/libSound.mjs";
 import libSprite from "../../common/libs/libSprite.mjs";
+import lib2d from "../../common/libs/lib2d.mjs";
 
 
 //--------------- Objects and Variables ----------------------------------//
 const chkMuteSound = document.getElementById("chkMuteSound");
 const rbDayNight = document.getElementsByName("rbDayNight");
 const cvs = document.getElementById("cvs");
-const spritecanvas  = new libSprite.TSpriteCanvas(cvs);
+const spcvs  = new libSprite.TSpriteCanvas(cvs);
 
 // prettier-ignore
 export const SpriteInfoList = {
@@ -30,7 +31,8 @@ export const SpriteInfoList = {
 export const GameProps = {
   soundMuted: false,
   dayTime: true,
-  background: null 
+  background: null,
+  ground: null,
 };
 
 //--------------- Functions ----------------------------------------------//
@@ -49,16 +51,24 @@ function loadGame(){
   cvs.height = SpriteInfoList.background.height;
 
   let pos = new lib2d.TPosition(0,0)
-  GameProps.background = new libSprite.TSprite(spcvs,SpriteInfoList.background);
+  GameProps.background = new libSprite.TSprite(spcvs,SpriteInfoList.background, pos);
+  const groundpos = new lib2d.TPosition(0,450)
+  GameProps.ground = new libSprite.TSprite(spcvs, SpriteInfoList.ground, groundpos);
+
   requestAnimationFrame(drawGame);
+  setInterval(animateGame, 10);
 }
 
 function drawGame(){
   spcvs.clearCanvas(); // renser canvaset
   GameProps.background.draw(); // tegner canvaset
-
+  GameProps.ground.draw();
   requestAnimationFrame(drawGame); 
 
+}
+
+function animateGame(){
+  GameProps.ground.translate(-GameProps,speed, 0);
 }
 
 //--------------- Event Handlers -----------------------------------------//

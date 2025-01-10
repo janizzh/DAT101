@@ -37,7 +37,7 @@ export default {
      * @param {number} aX - The x-coordinate.
      * @param {number} aY - The y-coordinate.
      */
-    Tpoint,
+    TPoint: TPoint,
     /**
      * @class TPosition
      * @description A position class for manupulation of point in 2D.
