@@ -33,6 +33,7 @@ export const GameProps = {
   dayTime: true,
   background: null,
   ground: null,
+  speed: 1,
 };
 
 //--------------- Functions ----------------------------------------------//
@@ -68,7 +69,8 @@ function drawGame(){
 }
 
 function animateGame(){
-  GameProps.ground.translate(-GameProps,speed, 0);
+  GameProps.ground.translate(-GameProps.speed, 0);
+  if(GameProps.ground.posX <= -SpriteInfoList.ground.height);
 }
 
 //--------------- Event Handlers -----------------------------------------//

@@ -57,6 +57,37 @@ class TSprite{
 
   }
 
+draw(){
+  this.#spcvs.drawSprite(this.#spi,this.#pos.x, this.#pos.y, this.#index);
+}
+
+translate(aDx, aDy){
+  this.#pos.x += aDx;
+  this.#pos.y += aDy;
+}
+
+get posX(){
+  return this.#pos.x;
+
+}  
+
+set posX(aX){
+  this.#pos.x = aX;
+}
+
+set posY(aY){
+  this.#pos.y = aY;
+}
+
+  get posY(){
+    return this.#pos.y;
+}
+
+setPos(aX, aY){
+  this.#pos.x = aX;
+  this.#pos.y = aY;
+}
+
 } // End of TSprite class
 
 
