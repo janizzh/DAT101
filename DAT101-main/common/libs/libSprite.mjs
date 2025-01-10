@@ -40,17 +40,20 @@ class TSpriteCanvas {
 } // End of TSpriteCanvas class
 
 class TSprite{
-  #spritecanvas //use hashtag # to make the variable private
-  #spriteinfo
-  
-  constructor(aSpriteCanvas, aSpriteInfo){
+  #spritecanvas; //use hashtag # to make the variable private
+  #spriteinfo;
+  #pos;
+  #index;
+  constructor(aSpriteCanvas, aSpriteInfo, aPosition){
     this.#spritecanvas = aSpriteCanvas
     this.#spriteinfo = aSpriteInfo
+    this.#pos = aPosition.clone(); // Vi trenger en kopi av posisjonen
+    this.#index = 0;
   }
 
   
   draw(){
-    this.#spritecanvas.drawSprite(this.sprite)
+    this.#spritecanvas.drawSprite(this.#spriteinfo, this.#pos.x, this.#pos.y,)
 
   }
 
@@ -67,4 +70,15 @@ export default {
    * @param {function} aLoadedFinal - A callback function to call when the image is done loading.
    */
   TSpriteCanvas: TSpriteCanvas,
+  
+/**
+   * @class TSprite
+   * @description A class that manage sprite animations.
+   * @param {TSpriteCanvas} aSpriteCanvas - The sprite canvas to use.
+   * @param {object} aSpriteInfo - The sprite information.
+   * @param {TPosition} aPosition - The position of the sprite.
+   * @function draw - Draws the sprite on the canvas.
+   */
+TSprite: TSprite
+
 };
