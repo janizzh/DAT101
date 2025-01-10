@@ -45,14 +45,19 @@ function playSound(aSound) {
 
 function loadGame(){
   console.log("Game ready to load");
+  cvs.width = SpriteInfoList.background.width;
+  cvs.height = SpriteInfoList.background.height;
+
   let pos = new lib2d.TPosition(0,0)
-  //GameProps.background = new libSprite.TSprite(spcvs,SpriteInfoList.background);
+  GameProps.background = new libSprite.TSprite(spcvs,SpriteInfoList.background);
   requestAnimationFrame(drawGame);
 }
 
 function drawGame(){
+  spcvs.clearCanvas(); // renser canvaset
+  GameProps.background.draw(); // tegner canvaset
 
-  requestAnimationFrame(drawGame);
+  requestAnimationFrame(drawGame); 
 
 }
 
