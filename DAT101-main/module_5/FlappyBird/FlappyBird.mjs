@@ -70,7 +70,9 @@ function drawGame(){
 
 function animateGame(){
   GameProps.ground.translate(-GameProps.speed, 0);
-  if(GameProps.ground.posX <= -SpriteInfoList.ground.height);
+  if(GameProps.ground.posX <= -SpriteInfoList.ground.height){
+    GameProps.ground.posX = 0;
+  }
 }
 
 //--------------- Event Handlers -----------------------------------------//
@@ -79,7 +81,7 @@ function setSoundOnOff() {
   if (chkMuteSound.checked) {
     GameProps.soundMuted = true;
     console.log("Sound muted");
-  } else {
+  } else {  
     GameProps.soundMuted = false;
     console.log("Sound on");
   }
