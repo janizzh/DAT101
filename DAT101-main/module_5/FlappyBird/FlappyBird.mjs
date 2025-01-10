@@ -7,7 +7,7 @@ import libSprite from "../../common/libs/libSprite.mjs";
 const chkMuteSound = document.getElementById("chkMuteSound");
 const rbDayNight = document.getElementsByName("rbDayNight");
 const cvs = document.getElementById("cvs");
-const spcvs = new libSprite.TSpriteCanvas(cvs);
+const spritecanvas  = new libSprite.TSpriteCanvas(cvs);
 
 // prettier-ignore
 export const SpriteInfoList = {
@@ -45,7 +45,15 @@ function playSound(aSound) {
 
 function loadGame(){
   console.log("Game ready to load");
-  //GameProps.background = new libSprite.TSprite(spcvs, SpriteInfoList.background);
+  let pos = new lib2d.TPosition(0,0)
+  //GameProps.background = new libSprite.TSprite(spcvs,SpriteInfoList.background);
+  requestAnimationFrame(drawGame);
+}
+
+function drawGame(){
+
+  requestAnimationFrame(drawGame);
+
 }
 
 //--------------- Event Handlers -----------------------------------------//

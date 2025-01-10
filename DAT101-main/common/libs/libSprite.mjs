@@ -40,20 +40,20 @@ class TSpriteCanvas {
 } // End of TSpriteCanvas class
 
 class TSprite{
-  #spritecanvas; //use hashtag # to make the variable private
-  #spriteinfo;
+  #spcvs; //use hashtag # to make the variable private
+  #spi;
   #pos;
   #index;
   constructor(aSpriteCanvas, aSpriteInfo, aPosition){
-    this.#spritecanvas = aSpriteCanvas
-    this.#spriteinfo = aSpriteInfo
+    this.#spcvs= aSpriteCanvas
+    this.#spi = aSpriteInfo
     this.#pos = aPosition.clone(); // Vi trenger en kopi av posisjonen
     this.#index = 0;
   }
 
   
   draw(){
-    this.#spritecanvas.drawSprite(this.#spriteinfo, this.#pos.x, this.#pos.y,)
+    this.#spcvs.drawSprite(this.#spi, this.#pos.x, this.#pos.y,)
 
   }
 
