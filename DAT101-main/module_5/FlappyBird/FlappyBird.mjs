@@ -34,6 +34,7 @@ export const GameProps = {
   background: null,
   ground: null,
   speed: 1,
+  hero: null,
 };
 
 //--------------- Functions ----------------------------------------------//
@@ -55,6 +56,9 @@ function loadGame(){
   GameProps.background = new libSprite.TSprite(spcvs,SpriteInfoList.background, pos);
   const groundpos = new lib2d.TPosition(0,450)
   GameProps.ground = new libSprite.TSprite(spcvs, SpriteInfoList.ground, groundpos);
+  pos.x = 100;
+  pos.y = 100;
+  GameProps.hero = new libSprite.TSprite(spcvs, SpriteInfoList.hero1, pos);
 
   requestAnimationFrame(drawGame);
   setInterval(animateGame, 10);
@@ -63,7 +67,8 @@ function loadGame(){
 function drawGame(){
   spcvs.clearCanvas(); // renser canvaset
   GameProps.background.draw(); // tegner canvaset
-  GameProps.ground.draw();
+  GameProps.ground.draw(); // tegner bakken
+  GameProps.hero.draw(); // tegner flappybirden
   requestAnimationFrame(drawGame); 
 
 }
