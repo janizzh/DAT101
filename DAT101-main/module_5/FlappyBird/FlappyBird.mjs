@@ -2,7 +2,7 @@
 import libSound from "../../common/libs/libSound.mjs";
 import libSprite from "../../common/libs/libSprite.mjs";
 import lib2d from "../../common/libs/lib2d.mjs";
-
+import THero from "./hero.mjs"; 
 
 //--------------- Objects and Variables ----------------------------------//
 const chkMuteSound = document.getElementById("chkMuteSound");
@@ -58,8 +58,7 @@ function loadGame(){
   GameProps.ground = new libSprite.TSprite(spcvs, SpriteInfoList.ground, groundpos);
   pos.x = 100;
   pos.y = 100;
-  GameProps.hero = new libSprite.TSprite(spcvs, SpriteInfoList.hero1, pos);
-  GameProps.hero.animateSpeed = 10;
+  GameProps.hero = new THero(spcvs, SpriteInfoList.hero1, pos);
   requestAnimationFrame(drawGame);
   setInterval(animateGame, 10);
 }
@@ -78,6 +77,7 @@ function animateGame(){
   if(GameProps.ground.posX <= -SpriteInfoList.ground.height){
     GameProps.ground.posX = 0;
   }
+  GameProps.hero.update();
 }
 
 //--------------- Event Handlers -----------------------------------------//
@@ -102,10 +102,19 @@ function setDayNight() {
   }
 } // end of setDayNight
 
+function onKeyDown(aEvent) {
+  switch(aEvent.code) {
+    case "Space":
+      GameProps.hero.flap();
+      break;
+  }
+}
+
 //--------------- Main Code ----------------------------------------------//
 chkMuteSound.addEventListener("change", setSoundOnOff);
 rbDayNight[0].addEventListener("change", setDayNight);
 rbDayNight[1].addEventListener("change", setDayNight);
 
 // Load the sprite sheet
-spcvs.loadSpriteSheet("./Media/FlappyBirdSprites.png", loadGame)
+spcvs.loadSpriteSheet("./Media/FlappyBirdSprites.png", loadGame);
+document.addEventListener("keydown", onKeyDown);
