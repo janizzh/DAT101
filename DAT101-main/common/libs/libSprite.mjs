@@ -99,6 +99,10 @@ setPos(aX, aY){
   this.#pos.y = aY;
 }
 
+set index(aIndex){
+  this.#index = aIndex;
+}
+
 } // End of TSprite class
 
 

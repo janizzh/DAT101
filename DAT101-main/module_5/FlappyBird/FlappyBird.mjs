@@ -3,6 +3,7 @@ import libSound from "../../common/libs/libSound.mjs";
 import libSprite from "../../common/libs/libSprite.mjs";
 import lib2d from "../../common/libs/lib2d.mjs";
 import THero from "./hero.mjs"; 
+import TObstacle from "./obstacle.mjs";
 
 //--------------- Objects and Variables ----------------------------------//
 const chkMuteSound = document.getElementById("chkMuteSound");
@@ -35,6 +36,7 @@ export const GameProps = {
   ground: null,
   speed: 1,
   hero: null,
+  obstacles: [], 
 };
 
 //--------------- Functions ----------------------------------------------//
@@ -59,6 +61,11 @@ function loadGame(){
   pos.x = 100;
   pos.y = 100;
   GameProps.hero = new THero(spcvs, SpriteInfoList.hero1, pos);
+
+  
+  const obstacle = new TObstacle(spcvs, SpriteInfoList.obstacle, pos);
+  obstacle.index = 2;
+  GameProps.obstacles.push(obstacle);
   requestAnimationFrame(drawGame);
   setInterval(animateGame, 10);
 }
@@ -66,10 +73,18 @@ function loadGame(){
 function drawGame(){
   spcvs.clearCanvas(); // renser canvaset
   GameProps.background.draw(); // tegner canvaset
+  drawObstacles(); // tegner søylene
   GameProps.ground.draw(); // tegner bakken
   GameProps.hero.draw(); // tegner flappybirden
   requestAnimationFrame(drawGame); 
 
+}
+
+function drawObstacles(){
+  for(let i = 0; i < GameProps.obstacles.length; i++){
+    const obstacle = GameProps.obstacles[i];
+    obstacle.draw();
+  }
 }
 
 function animateGame(){
@@ -78,6 +93,10 @@ function animateGame(){
     GameProps.ground.posX = 0;
   }
   GameProps.hero.update();
+  for(let i = 0; i < GameProps.obstacles.length; i++){
+    const obstacle = GameProps.obstacles[i];
+    obstacle.update();
+  }
 }
 
 //--------------- Event Handlers -----------------------------------------//
