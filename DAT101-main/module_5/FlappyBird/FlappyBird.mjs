@@ -62,10 +62,7 @@ function loadGame(){
   pos.y = 100;
   GameProps.hero = new THero(spcvs, SpriteInfoList.hero1, pos);
 
-  
-  const obstacle = new TObstacle(spcvs, SpriteInfoList.obstacle, pos);
-  obstacle.index = 2;
-  GameProps.obstacles.push(obstacle);
+  spawnObstacle();
   requestAnimationFrame(drawGame);
   setInterval(animateGame, 10);
 }
@@ -93,12 +90,29 @@ function animateGame(){
     GameProps.ground.posX = 0;
   }
   GameProps.hero.update();
+  let delObstacleIndex = -1;
   for(let i = 0; i < GameProps.obstacles.length; i++){
     const obstacle = GameProps.obstacles[i];
     obstacle.update();
+    if(obstacle.posX < -100){
+      delObstacleIndex = i;
+    }
+
+    if(delObstacleIndex >= 0){
+      GameProps.obstacles.splice(delObstacleIndex, i);
+    }
+
   }
+
+  
 }
 
+function spawnObstacle(){
+    const obstacle = new TObstacle(spcvs, SpriteInfoList.obstacle);
+    GameProps.obstacles.push(obstacle);
+    const seconds = Math.ceil(Math.random() * +7) + 2; // Spawn a new obstacle in 10-30 seconds
+    setTimeout(spawnObstacle, seconds * 1000);
+  }
 //--------------- Event Handlers -----------------------------------------//
 
 function setSoundOnOff() {
