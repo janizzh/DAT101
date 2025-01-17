@@ -4,8 +4,8 @@ import { GameProps } from "./FlappyBird.mjs";
 
 class THero extends libSprite.TSprite{
     #spi;
-    #gravity = 9.81 / 60;
-    #velocity = 0   ;
+    #gravity = 9.81 / 100;
+    #velocity = 0  ;
     constructor(aSpriteCanvas, aSpriteInfo, aPosition) {
         super(aSpriteCanvas, aSpriteInfo, aPosition);
         this.#spi = aSpriteInfo;

@@ -63,6 +63,7 @@ function loadGame(){
   GameProps.hero = new THero(spcvs, SpriteInfoList.hero1, pos);
 
   spawnObstacle();
+
   requestAnimationFrame(drawGame);
   setInterval(animateGame, 10);
 }
@@ -110,8 +111,9 @@ function animateGame(){
 function spawnObstacle(){
     const obstacle = new TObstacle(spcvs, SpriteInfoList.obstacle);
     GameProps.obstacles.push(obstacle);
-    const seconds = Math.ceil(Math.random() * +7) + 2; // Spawn a new obstacle in 10-30 seconds
+    const seconds = Math.ceil(Math.random() * 5) + 2; // Spawn a new obstacle in 2-7 seconds
     setTimeout(spawnObstacle, seconds * 1000);
+    console.log("Obstacle spawned in " + seconds + " seconds");
   }
 //--------------- Event Handlers -----------------------------------------//
 
