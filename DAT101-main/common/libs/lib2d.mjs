@@ -30,6 +30,39 @@ class TPosition extends TPoint{ //extends command arver public variabler og funk
 
 } // End of TPosition class
 
+class TRectangle extends TPosition{ //Trecangle arver fra Tposition ved å bruke extends command
+    constructor(aX, aY, aWidth, aHeight){
+        super(aX, aY);
+        this.width = aWidth;
+        this.height = aHeight;
+    }
+
+    get left(){
+        return this.x;
+    }
+
+    get right(){
+        return this.x + this.width;
+    }
+
+    get top(){
+        return this.y;
+    }
+
+    get bottom(){
+        return this.y + this.height;
+    }
+
+
+    isInsideRect(aRect){
+    if(this.left >= aRect.right) return false;
+    if(this.right <= aRect.left) return false;
+    if(this.top >= aRect.bottom) return false;
+    if(this.bottom <= aRect.top) return false;
+    return true;
+    }
+}
+
 export default {
     /**
      * @class TPoint
@@ -47,5 +80,22 @@ export default {
      * @method clone - A method to clone the position object.
      * @method distanceToPoint  - A method to calculate the distance to another point
      */
-    TPosition
+    TPosition,
+
+  /**
+   * @class TRectangle
+   * @extends TPosition
+   * @description A class representation for a rectangle in 2D.
+   * @param {number} aX - The x-coordinate.
+   * @param {number} aY - The y-coordinate.
+   * @param {number} aWidth - The width of the rectangle.
+   * @param {number} aHeight - The height of the rectangle.
+   * @property {number} width - The width of the rectangle.
+   * @property {number} height - The height of the rectangle.
+   * @property {number} left - The left side of the rectangle. 
+   * @property {number} right - The right side of the rectangle.
+   * @property {number} top - The top side of the rectangle.
+   * @property {number} bottom - The bottom side of the rectangle.
+   */
+  TRectangle
 }

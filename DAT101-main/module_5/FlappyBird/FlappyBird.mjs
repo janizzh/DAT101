@@ -86,8 +86,13 @@ function drawObstacles(){
 }
 
 function animateGame(){
+  if(GameProps.hero.isDead){
+    GameProps.hero.animateSpeed = 0;
+    GameProps.hero.update(); 
+    return;
+  }
   GameProps.ground.translate(-GameProps.speed, 0);
-  if(GameProps.ground.posX <= -SpriteInfoList.ground.height){
+  if(GameProps.ground.posX <= -SpriteInfoList.ground.width){
     GameProps.ground.posX = 0;
   }
   GameProps.hero.update();
@@ -113,7 +118,6 @@ function spawnObstacle(){
     GameProps.obstacles.push(obstacle);
     const seconds = Math.ceil(Math.random() * 5) + 2; // Spawn a new obstacle in 2-7 seconds
     setTimeout(spawnObstacle, seconds * 1000);
-    console.log("Obstacle spawned in " + seconds + " seconds");
   }
 //--------------- Event Handlers -----------------------------------------//
 

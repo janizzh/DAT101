@@ -52,6 +52,7 @@ class TSprite{
     this.#index = 0;
     this.animateSpeed = 0;
     this.#speedIndex = 0;
+    this.boundingBox = new lib2d.TRectangle(this.#pos.x, this.#pos.y, this.#spi.width, this.#spi.height)
   }
 
   
@@ -75,6 +76,8 @@ class TSprite{
 translate(aDx, aDy){
   this.#pos.x += aDx;
   this.#pos.y += aDy;
+  this.boundingBox.x += aDx;
+  this.boundingBox.y += aDy;
 }
 
 get posX(){
@@ -84,10 +87,12 @@ get posX(){
 
 set posX(aX){
   this.#pos.x = aX;
+  this.boundingBox.x = aX;
 }
 
 set posY(aY){
   this.#pos.y = aY;
+  this.boundingBox.y = aY;
 }
 
   get posY(){
@@ -97,10 +102,20 @@ set posY(aY){
 setPos(aX, aY){
   this.#pos.x = aX;
   this.#pos.y = aY;
+  this.boundingBox.x = aX;
+  this.boundingBox.y = aY;
+}
+
+get index(){
+  return this.#index;
 }
 
 set index(aIndex){
   this.#index = aIndex;
+}
+
+hasCollided(aSprite){
+  return this.boundingBox.isInsideRect(aSprite.boundingBox);
 }
 
 } // End of TSprite class

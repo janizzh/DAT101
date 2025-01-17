@@ -35,6 +35,13 @@ draw(){
 update(){
     this.#upper.translate(-1, 0);
     this.#lower.translate(-1, 0);
+    const hasCollided = 
+    GameProps.hero.hasCollided(this.#upper) || 
+    GameProps.hero.hasCollided(this.#lower);
+
+    if(hasCollided){
+        GameProps.hero.isDead = true;
+    }
 }
 
 get posX(){
