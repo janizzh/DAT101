@@ -34,7 +34,7 @@ class THero extends libSprite.TSprite{
         }
 
     flap(){
-        this.#velocity = -5;
+        this.#velocity = -3;
     }    
 } // End of class
 

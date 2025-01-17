@@ -29,12 +29,15 @@ export const SpriteInfoList = {
   medal:        { x:  985, y: 635, width:   44, height:  44, count:  4 },
 };
 
+export const EGameStatus = {idle: 0, getReady: 1, playing: 2, gameOver: 3}; //Dette er en enum
+
 export const GameProps = {
   soundMuted: false,
   dayTime: true,
+  speed: 1,
+  status: EGameStatus.playing, //For testing, normalt EgameStatus.idle
   background: null,
   ground: null,
-  speed: 1,
   hero: null,
   obstacles: [], 
 };
@@ -144,7 +147,10 @@ function setDayNight() {
 function onKeyDown(aEvent) {
   switch(aEvent.code) {
     case "Space":
-      GameProps.hero.flap();
+      if(!GameProps.hero.isDead){ //Husk dette kommer på eksamen, koden for at hero ikke skal flappe når den er død. ! betyr ikke. Så hvis ikke hero er død så kan den flappe.
+        GameProps.hero.flap();
+      }
+      
       break;
   }
 }
