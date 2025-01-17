@@ -40,6 +40,7 @@ update(){
     GameProps.hero.hasCollided(this.#lower);
 
     if(hasCollided){
+        GameProps.hero.flap();
         GameProps.hero.isDead = true;
     }
 }

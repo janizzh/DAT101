@@ -35,7 +35,7 @@ class TSpriteCanvas {
       //Hvis vi har rotasjon må vi flytte midten av destinasjonen til 0,0
       const cx = dx + dw / 2; // cx = centerx
       const cy = dy + dh / 2; // cy = centery
-      const rad = aRot + Math.PI / 180;
+      const rad = aRot * Math.PI / 180;
       this.#ctx.translate(cx,cy);
       this.#ctx.rotate(rad);
       this.#ctx.drawImage(this.#img, sx, sy, sw, sh, -dw / 2, -dh / 2, dw, dh)
