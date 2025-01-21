@@ -2,7 +2,7 @@
 import libSound from "../../common/libs/libSound.mjs";
 import libSprite from "../../common/libs/libSprite.mjs";
 import lib2d from "../../common/libs/lib2d.mjs";
-import THero from "./hero.mjs"; 
+import THero from "./hero.mjs";
 import TObstacle from "./obstacle.mjs";
 import { TBait } from "./bait.mjs";
 
@@ -10,7 +10,7 @@ import { TBait } from "./bait.mjs";
 const chkMuteSound = document.getElementById("chkMuteSound");
 const rbDayNight = document.getElementsByName("rbDayNight");
 const cvs = document.getElementById("cvs");
-const spcvs  = new libSprite.TSpriteCanvas(cvs);
+const spcvs = new libSprite.TSpriteCanvas(cvs);
 
 // prettier-ignore
 export const SpriteInfoList = {
@@ -30,7 +30,7 @@ export const SpriteInfoList = {
   medal:        { x:  985, y: 635, width:   44, height:  44, count:  4 },
 };
 
-export const EGameStatus = {idle: 0, getReady: 1, playing: 2, gameOver: 3}; //Dette er en enum
+export const EGameStatus = { idle: 0, getReady: 1, playing: 2, gameOver: 3 }; //Dette er en enum
 
 export const GameProps = {
   soundMuted: false,
@@ -40,7 +40,7 @@ export const GameProps = {
   background: null,
   ground: null,
   hero: null,
-  obstacles: [], 
+  obstacles: [],
   baits: [],
 };
 
@@ -54,14 +54,14 @@ function playSound(aSound) {
   }
 }
 
-function loadGame(){
+function loadGame() {
   console.log("Game ready to load");
   cvs.width = SpriteInfoList.background.width;
   cvs.height = SpriteInfoList.background.height;
 
-  let pos = new lib2d.TPosition(0,0)
-  GameProps.background = new libSprite.TSprite(spcvs,SpriteInfoList.background, pos);
-  const groundpos = new lib2d.TPosition(0,450)
+  let pos = new lib2d.TPosition(0, 0);
+  GameProps.background = new libSprite.TSprite(spcvs, SpriteInfoList.background, pos);
+  const groundpos = new lib2d.TPosition(0, 450);
   GameProps.ground = new libSprite.TSprite(spcvs, SpriteInfoList.ground, groundpos);
   pos.x = 100;
   pos.y = 100;
@@ -74,76 +74,76 @@ function loadGame(){
   setInterval(animateGame, 10);
 }
 
-function drawGame(){
+function drawGame() {
   spcvs.clearCanvas(); // renser canvaset
   GameProps.background.draw(); // tegner canvaset
   drawBait(); // tegner sommerfuglene
   drawObstacles(); // tegner søylene
   GameProps.ground.draw(); // tegner bakken
   GameProps.hero.draw(); // tegner flappybirden
-  requestAnimationFrame(drawGame); 
-
+  requestAnimationFrame(drawGame);
 }
 
-function drawObstacles(){
-  for(let i = 0; i < GameProps.obstacles.length; i++){
+function drawObstacles() {
+  for (let i = 0; i < GameProps.obstacles.length; i++) {
     const obstacle = GameProps.obstacles[i];
     obstacle.draw();
   }
 }
 
 function drawBait() {
-  for(let i = 0; i < GameProps.baits.length; i++){
+  for (let i = 0; i < GameProps.baits.length; i++) {
     const bait = GameProps.baits[i];
     bait.draw();
   }
 }
 
-function animateGame(){
-  switch(GameProps.status){
+function animateGame() {
+  switch (GameProps.status) {
     case EGameStatus.playing:
-      if(GameProps.hero.isDead){
+      if (GameProps.hero.isDead) {
         GameProps.hero.animateSpeed = 0;
-        GameProps.hero.update(); 
+        GameProps.hero.update();
         return;
       }
       GameProps.ground.translate(-GameProps.speed, 0);
-      if(GameProps.ground.posX <= -SpriteInfoList.ground.width){
+      if (GameProps.ground.posX <= -SpriteInfoList.ground.width / 2) {
         GameProps.ground.posX = 0;
       }
       GameProps.hero.update();
       let delObstacleIndex = -1;
-      for(let i = 0; i < GameProps.obstacles.length; i++){
+      for (let i = 0; i < GameProps.obstacles.length; i++) {
         const obstacle = GameProps.obstacles[i];
         obstacle.update();
-        if(obstacle.posX < -100){
+        if (obstacle.posX < -100) {
           delObstacleIndex = i;
         }
-    
-        if(delObstacleIndex >= 0){
-          GameProps.obstacles.splice(delObstacleIndex, i);
-        }
-        break;
-  }
-  
+      }
+      if (delObstacleIndex >= 0) {
+        GameProps.obstacles.splice(delObstacleIndex, 1);
+      }
 
-  }
+    case EGameStatus.gameOver:
+      for (let i = 0; i < GameProps.baits.length; i++) {
+        const bait = GameProps.baits[i];
+        bait.update();
+      }
 
-  
+      break;
+  }
 }
 
-function spawnObstacle(){
-    const obstacle = new TObstacle(spcvs, SpriteInfoList.obstacle);
-    GameProps.obstacles.push(obstacle);
-    const seconds = Math.ceil(Math.random() * 5) + 2; // Spawn a new obstacle in 2-7 seconds
-    setTimeout(spawnObstacle, seconds * 1000);
-  }
+function spawnObstacle() {
+  const obstacle = new TObstacle(spcvs, SpriteInfoList.obstacle);
+  GameProps.obstacles.push(obstacle);
+  const seconds = Math.ceil(Math.random() * 5) + 2; // Spawn a new obstacle in 2-7 seconds
+  setTimeout(spawnObstacle, seconds * 1000);
+}
 
-function spawnBait(){
+function spawnBait() {
   const pos = new lib2d.TPosition(400, 100);
   const bait = new TBait(spcvs, SpriteInfoList.food, pos);
   GameProps.baits.push(bait);
-
 }
 
 //--------------- Event Handlers -----------------------------------------//
@@ -152,7 +152,7 @@ function setSoundOnOff() {
   if (chkMuteSound.checked) {
     GameProps.soundMuted = true;
     console.log("Sound muted");
-  } else {  
+  } else {
     GameProps.soundMuted = false;
     console.log("Sound on");
   }
@@ -169,12 +169,13 @@ function setDayNight() {
 } // end of setDayNight
 
 function onKeyDown(aEvent) {
-  switch(aEvent.code) {
+  switch (aEvent.code) {
     case "Space":
-      if(!GameProps.hero.isDead){ //Husk dette kommer på eksamen, koden for at hero ikke skal flappe når den er død. ! betyr ikke. Så hvis ikke hero er død så kan den flappe.
+      if (!GameProps.hero.isDead) {
+        //Husk dette kommer på eksamen, koden for at hero ikke skal flappe når den er død. ! betyr ikke. Så hvis ikke hero er død så kan den flappe.
         GameProps.hero.flap();
       }
-      
+
       break;
   }
 }
