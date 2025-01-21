@@ -28,5 +28,4 @@ export class TBait extends libSprite.TSprite{
     }
 
 
-
-}
+} // End of Tbait class

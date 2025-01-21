@@ -124,12 +124,23 @@ function animateGame() {
       }
 
     case EGameStatus.gameOver:
+      let delBaitIndex = -1;
+      const posHero = GameProps.hero.getCenter();
       for (let i = 0; i < GameProps.baits.length; i++) {
         const bait = GameProps.baits[i];
         bait.update();
+        const posBait = bait.getCenter();
+        const distanceToHero = posHero.distanceToPoint(posBait);
+        if(distanceToHero < 15){
+          delBaitIndex = i;
+        }
+      }
+      if(delBaitIndex >= 0){
+        GameProps.baits.splice(delBaitIndex, 1);
       }
 
       break;
+
   }
 }
 
@@ -144,6 +155,7 @@ function spawnBait() {
   const pos = new lib2d.TPosition(400, 100);
   const bait = new TBait(spcvs, SpriteInfoList.food, pos);
   GameProps.baits.push(bait);
+  //Generer nye baits hvert 0.5 til 1 sekund med step på 0.1
 }
 
 //--------------- Event Handlers -----------------------------------------//
