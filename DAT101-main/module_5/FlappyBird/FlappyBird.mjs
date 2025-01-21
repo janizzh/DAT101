@@ -4,6 +4,7 @@ import libSprite from "../../common/libs/libSprite.mjs";
 import lib2d from "../../common/libs/lib2d.mjs";
 import THero from "./hero.mjs"; 
 import TObstacle from "./obstacle.mjs";
+import { TBait } from "./bait.mjs";
 
 //--------------- Objects and Variables ----------------------------------//
 const chkMuteSound = document.getElementById("chkMuteSound");
@@ -40,6 +41,7 @@ export const GameProps = {
   ground: null,
   hero: null,
   obstacles: [], 
+  baits: [],
 };
 
 //--------------- Functions ----------------------------------------------//
@@ -66,6 +68,7 @@ function loadGame(){
   GameProps.hero = new THero(spcvs, SpriteInfoList.hero1, pos);
 
   spawnObstacle();
+  spawnBait();
 
   requestAnimationFrame(drawGame);
   setInterval(animateGame, 10);
@@ -74,6 +77,7 @@ function loadGame(){
 function drawGame(){
   spcvs.clearCanvas(); // renser canvaset
   GameProps.background.draw(); // tegner canvaset
+  drawBait(); // tegner sommerfuglene
   drawObstacles(); // tegner søylene
   GameProps.ground.draw(); // tegner bakken
   GameProps.hero.draw(); // tegner flappybirden
@@ -85,6 +89,13 @@ function drawObstacles(){
   for(let i = 0; i < GameProps.obstacles.length; i++){
     const obstacle = GameProps.obstacles[i];
     obstacle.draw();
+  }
+}
+
+function drawBait() {
+  for(let i = 0; i < GameProps.baits.length; i++){
+    const bait = GameProps.baits[i];
+    bait.draw();
   }
 }
 
@@ -127,6 +138,14 @@ function spawnObstacle(){
     const seconds = Math.ceil(Math.random() * 5) + 2; // Spawn a new obstacle in 2-7 seconds
     setTimeout(spawnObstacle, seconds * 1000);
   }
+
+function spawnBait(){
+  const pos = new lib2d.TPosition(400, 100);
+  const bait = new TBait(spcvs, SpriteInfoList.food, pos);
+  GameProps.baits.push(bait);
+
+}
+
 //--------------- Event Handlers -----------------------------------------//
 
 function setSoundOnOff() {
