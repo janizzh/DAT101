@@ -5,6 +5,7 @@ import lib2d from "../../common/libs/lib2d.mjs";
 import THero from "./hero.mjs";
 import TObstacle from "./obstacle.mjs";
 import { TBait } from "./bait.mjs";
+import { TMenu } from "./menu.mjs";
 
 //--------------- Objects and Variables ----------------------------------//
 const chkMuteSound = document.getElementById("chkMuteSound");
@@ -23,7 +24,7 @@ export const SpriteInfoList = {
   ground:       { x:  246, y: 512, width: 1152, height: 114, count:  1 },
   numberSmall:  { x:  681, y: 635, width:   14, height:  20, count: 10 },
   numberBig:    { x:  422, y: 635, width:   24, height:  36, count: 10 },
-  buttonPLay:   { x: 1183, y: 635, width:  104, height:  58, count:  1 },
+  buttonPlay:   { x: 1183, y: 635, width:  104, height:  58, count:  1 },
   gameOver:     { x:    0, y: 384, width:  226, height: 114, count:  1 },
   infoText:     { x:    0, y: 630, width:  200, height:  55, count:  2 },
   food:         { x:    0, y: 696, width:   70, height:  65, count: 34 },
@@ -36,12 +37,13 @@ export const GameProps = {
   soundMuted: false,
   dayTime: true,
   speed: 1,
-  status: EGameStatus.playing, //For testing, normalt EgameStatus.idle
+  status: EGameStatus.idle, //For testing, normalt EgameStatus.idle
   background: null,
   ground: null,
   hero: null,
   obstacles: [],
   baits: [],
+  menu: null,
 };
 
 //--------------- Functions ----------------------------------------------//
@@ -72,7 +74,9 @@ function loadGame() {
 
   requestAnimationFrame(drawGame);
   setInterval(animateGame, 10);
-}
+
+  GameProps.menu = new TMenu(spcvs);
+} // End of LoadGame
 
 function drawGame() {
   spcvs.clearCanvas(); // renser canvaset
@@ -81,6 +85,7 @@ function drawGame() {
   drawObstacles(); // tegner søylene
   GameProps.ground.draw(); // tegner bakken
   GameProps.hero.draw(); // tegner flappybirden
+  GameProps.menu.draw(); // tegner menu
   requestAnimationFrame(drawGame);
 }
 
@@ -140,22 +145,33 @@ function animateGame() {
       }
 
       break;
-
+      case EGameStatus.idle:
+        GameProps.hero.updateIdle();
+        break;
   }
 }
 
 function spawnObstacle() {
   const obstacle = new TObstacle(spcvs, SpriteInfoList.obstacle);
   GameProps.obstacles.push(obstacle);
-  const seconds = Math.ceil(Math.random() * 5) + 2; // Spawn a new obstacle in 2-7 seconds
-  setTimeout(spawnObstacle, seconds * 1000);
+  // Spawn a new obstacle in 2-7 seconds
+  if(GameProps.status === EGameStatus.playing){
+    const seconds = Math.ceil(Math.random() * 5) + 2; 
+    setTimeout(spawnObstacle, seconds * 1000);
+  }
+
 }
 
 function spawnBait() {
-  const pos = new lib2d.TPosition(400, 100);
+  const pos = new lib2d.TPosition(SpriteInfoList.background.width, 100);
   const bait = new TBait(spcvs, SpriteInfoList.food, pos);
   GameProps.baits.push(bait);
-  //Generer nye baits hvert 0.5 til 1 sekund med step på 0.1
+  // Generer nye baits hvert 0.5 til 1 sekund med step på 0.1
+  if(GameProps.status === EGameStatus.playing){
+    const seconds = Math.ceil(Math.random() * 5) / 10 + 0.5;
+    setTimeout(spawnBait, seconds * 1000)
+  }
+
 }
 
 //--------------- Event Handlers -----------------------------------------//
