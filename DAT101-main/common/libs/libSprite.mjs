@@ -9,11 +9,14 @@ class TSpriteCanvas {
   #cvs;
   #ctx;
   #img;
+  #boundingRect;
 
   constructor(aCanvas) {
     this.#cvs = aCanvas;
     this.#ctx = aCanvas.getContext("2d");
     this.#img = new Image();
+    this.#boundingRect = this.#cvs.getBoundingClientRect();
+    this.mousePos = new lib2d.TPoint(0, 0);
   }
 
   loadSpriteSheet(aFileName, aLoadedFinal) {
@@ -51,6 +54,21 @@ class TSpriteCanvas {
   clearCanvas(){
     this.#ctx.clearRect(0, 0, this.#cvs.width, this.#cvs.height);
   }
+
+  addEventListener(aType, aListener){
+    this.#cvs.addEventListener(aType, aListener);
+  }
+
+  getMousePos(aEvent){
+    this.mousePos.x = aEvent.clientX - this.#boundingRect.left;
+    this.mousePos.y = aEvent.clientY - this.#boundingRect.top;
+    return this.mousePos;
+  }
+
+  get style(){
+    return this.#cvs.style;
+  }
+
 } // End of TSpriteCanvas class
 
 class TSprite{
