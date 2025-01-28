@@ -11,31 +11,50 @@ export class TMenu{
     #spinfoText;
     #spcvs;
     #activeSprite;
+    #spGameOver;
+    #spMedal;
+    #spScore;
     constructor(aSpriteCanvas){
         this.#spcvs = aSpriteCanvas;
-        const pos = new lib2d.TPosition(200, 100) /** 
+        const pos = new lib2d.TPosition(210, 180) /** 
         grunnen til at vi kan endre på const konstanten her er fordi vi endrer ikke på new lib2.d.Tposition som definerer const, 
         men heller x,y koordinatene som kan endres uten problemer. /** */
         
+//GameProps.status = EGameStatus.gameOver;
+
         this.#spFlappyBird = new libSprite.TSprite(aSpriteCanvas, SpriteInfoList.flappyBird, pos);
 
-        pos.y = 200; // For nedtellingstallet
-        pos.x = 300; // For nedtellingstallet
+        pos.y = 150; // For nedtellingstallet
+        pos.x = 280; // For nedtellingstallet
         this.#spNumber = new libSprite.TSprite(aSpriteCanvas, SpriteInfoList.numberBig, pos);
 
 
-        pos.y = 200; // For play knappen
-        pos.x = 240; // For play knappen 
+        pos.y = 270; // For play knappen
+        pos.x = 245; // For play knappen 
         this.#spButtonPlay = new libSprite.TSprite(aSpriteCanvas, SpriteInfoList.buttonPlay, pos);
 
         pos.x = 200; // For get ready teksten
-        pos.y = 100; // For get ready teksten
+        pos.y = 70; // For get ready teksten
         this.#spinfoText = new libSprite.TSprite(aSpriteCanvas, SpriteInfoList.infoText, pos);
 
         this.#spNumber.index = 3; // Nedtelling starter på 3.
         this.#spcvs.addEventListener("mousemove", this.#onMouseMove);
         this.#spcvs.addEventListener("click", this.#onClick);
         this.#activeSprite = null; // Vi har ingen aktiv sprite enda, når musen er over en
+
+        pos.x = 190; // For Game Over boksen
+        pos.y = 130; // For Game Over boksen
+        this.#spGameOver = new libSprite.TSprite(aSpriteCanvas, SpriteInfoList.gameOver, pos);
+
+        pos.x = 370; // For scoren i Game Over boksen (Tallet under score)
+        pos.y = 160; // For scoren i Game over boksen (Tallet under score)
+        this.#spScore = new libSprite.TSprite(aSpriteCanvas, SpriteInfoList.numberSmall, pos);
+
+        pos.x = 215; // For Medaljen i Game Over boksen
+        pos.y = 170; // For Medaljen i Game Over boksen 
+        this.#spMedal = new libSprite.TSprite(aSpriteCanvas, SpriteInfoList.medal, pos);
+
+        
     }
 
     draw(){
@@ -45,8 +64,19 @@ export class TMenu{
                 this.#spButtonPlay.draw();
                 break;
             case EGameStatus.getReady:
+                this.#spinfoText.index = 0;
                 this.#spinfoText.draw();
                 this.#spNumber.draw();
+                break;
+            case EGameStatus.gameOver:
+                this.#spinfoText.index = 1;// index 1 fordi vi skal bruke Game Over teksten og ikke Get Ready teksten som ligger i Flappybird.mjs SpriteInfolist koden.
+                this.#spinfoText.draw();
+                this.#spGameOver.draw();
+                this.#spScore.draw(); 
+                this.#spMedal.index = 2;// index 2 fordi vi skal bruke gull medalje og ikke sølv som ligger i Flappybird.mjs SpriteInfolist koden. Den har totalt 4 index.
+                this.#spinfoText.draw();
+                this.#spMedal.draw();
+                this.#spButtonPlay.draw();
                 break;
                 
         }
