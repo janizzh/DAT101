@@ -49,6 +49,13 @@ class TSpriteCanvas {
 
     }
     
+  } // End of drawSprite
+
+  drawText(aText, aPos){
+    this.#ctx.font = "20px Arial";
+    this.#ctx.fillStyle = "lightblack";
+    this.#ctx.textAlign = "right";
+    this.#ctx.fillText(aText, aPos.x, aPos.y);
   }
 
   clearCanvas(){

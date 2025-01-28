@@ -13,7 +13,9 @@ export class TMenu{
     #activeSprite;
     #spGameOver;
     #spMedal;
-    #spScore;
+    #posScore;
+    #posBestScore;
+    //#spScore;
     constructor(aSpriteCanvas){
         this.#spcvs = aSpriteCanvas;
         const pos = new lib2d.TPosition(210, 180) /** 
@@ -29,8 +31,8 @@ export class TMenu{
         this.#spNumber = new libSprite.TSprite(aSpriteCanvas, SpriteInfoList.numberBig, pos);
 
 
-        pos.y = 270; // For play knappen
-        pos.x = 245; // For play knappen 
+        pos.y = 260; // For play knappen
+        pos.x = 250; // For play knappen 
         this.#spButtonPlay = new libSprite.TSprite(aSpriteCanvas, SpriteInfoList.buttonPlay, pos);
 
         pos.x = 200; // For get ready teksten
@@ -46,14 +48,16 @@ export class TMenu{
         pos.y = 130; // For Game Over boksen
         this.#spGameOver = new libSprite.TSprite(aSpriteCanvas, SpriteInfoList.gameOver, pos);
 
-        pos.x = 370; // For scoren i Game Over boksen (Tallet under score)
-        pos.y = 160; // For scoren i Game over boksen (Tallet under score)
-        this.#spScore = new libSprite.TSprite(aSpriteCanvas, SpriteInfoList.numberSmall, pos);
+       // pos.x = 370; // For scoren i Game Over boksen (Tallet under score)
+      // pos.y = 160; // For scoren i Game over boksen (Tallet under score)
+       // this.#spScore = new libSprite.TSprite(aSpriteCanvas, SpriteInfoList.numberSmall, pos);
 
         pos.x = 215; // For Medaljen i Game Over boksen
         pos.y = 170; // For Medaljen i Game Over boksen 
         this.#spMedal = new libSprite.TSprite(aSpriteCanvas, SpriteInfoList.medal, pos);
 
+        this.#posScore = new lib2d.TPosition(390, 180); // For scoren i Game Over boksen (Tallet under score)
+        this.#posBestScore = new lib2d.TPosition(390, 223); // For best scoren i Game Over boksen (Tallet under best score)
         
     }
 
@@ -71,10 +75,11 @@ export class TMenu{
             case EGameStatus.gameOver:
                 this.#spinfoText.index = 1;// index 1 fordi vi skal bruke Game Over teksten og ikke Get Ready teksten som ligger i Flappybird.mjs SpriteInfolist koden.
                 this.#spinfoText.draw();
-                this.#spGameOver.draw();
-                this.#spScore.draw(); 
+                this.#spGameOver.draw(); 
                 this.#spMedal.index = 2;// index 2 fordi vi skal bruke gull medalje og ikke sølv som ligger i Flappybird.mjs SpriteInfolist koden. Den har totalt 4 index.
-                this.#spinfoText.draw();
+                //this.#spScore.draw();
+                this.#spcvs.drawText("50", this.#posScore);
+                this.#spcvs.drawText("100", this.#posBestScore);
                 this.#spMedal.draw();
                 this.#spButtonPlay.draw();
                 break;
