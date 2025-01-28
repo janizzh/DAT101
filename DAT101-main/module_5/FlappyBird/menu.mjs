@@ -1,7 +1,8 @@
 "use strict";
 import lib2d from "../../common/libs/lib2d.mjs";
+import libSound from "../../common/libs/libSound.mjs";
 import libSprite from "../../common/libs/libSprite.mjs";
-import { SpriteInfoList, GameProps, EGameStatus } from "./FlappyBird.mjs";
+import { SpriteInfoList, GameProps, EGameStatus, startGame } from "./FlappyBird.mjs";
 
 export class TMenu{
     #spFlappyBird;
@@ -84,7 +85,7 @@ export class TMenu{
         setTimeout(this.#onCountDown, 1000); // 1000 fordi det er millisekunder
      }   
      else{
-        GameProps.status = EGameStatus.playing;
+        startGame();    
      }
     }
 

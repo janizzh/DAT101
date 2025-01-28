@@ -69,14 +69,13 @@ function loadGame() {
   pos.y = 100;
   GameProps.hero = new THero(spcvs, SpriteInfoList.hero1, pos);
 
-  spawnObstacle();
-  spawnBait();
 
   requestAnimationFrame(drawGame);
   setInterval(animateGame, 10);
 
   GameProps.menu = new TMenu(spcvs);
 } // End of LoadGame
+
 
 function drawGame() {
   spcvs.clearCanvas(); // renser canvaset
@@ -172,6 +171,12 @@ function spawnBait() {
     setTimeout(spawnBait, seconds * 1000)
   }
 
+}
+
+export function startGame () { //export gjør at vi kan bruke funksjonen overalt andre steder i koden ved å skrive import {startGame} from "./FlappyBird.mjs"; i toppen av koden.
+  GameProps.status = EGameStatus.playing;
+  spawnObstacle();
+  spawnBait();
 }
 
 //--------------- Event Handlers -----------------------------------------//
