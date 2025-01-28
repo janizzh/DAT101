@@ -46,6 +46,8 @@ export const GameProps = {
   menu: null,
   score: 0,
   bestScore: 0,
+  sounds: {countDown: null, food: null, gameOver: null, dead: null, running: null}, 
+  //Hva betyr denne syntaksen? Betyr at sound er en variabel i et objekt som heter Gameprops. Sounds er igjen et eget objekt som innhholder fire variabler.
 };
 
 //--------------- Functions ----------------------------------------------//
@@ -71,11 +73,15 @@ function loadGame() {
   pos.y = 100;
   GameProps.hero = new THero(spcvs, SpriteInfoList.hero1, pos);
 
+  GameProps.menu = new TMenu(spcvs);
+
+  //Load sounds
+  GameProps.sounds.running = new libSound.TSoundFile("./Media/running.mp3");
 
   requestAnimationFrame(drawGame);
   setInterval(animateGame, 10);
 
-  GameProps.menu = new TMenu(spcvs);
+
 } // End of LoadGame
 
 
@@ -126,7 +132,7 @@ function animateGame() {
         // implisitt deklarasjon her det liker vi ikke, vi har lagd obstacle.hasPassed uten å deklarere den, må lage variabel altså deklarere den først. 
         // Vi gjør det i obstacle.mjs fila og skriver this.hasPassed = false;. Kommer på eksamen
           // Congratulations, you have passed the obstacle
-          GameProps.score += 20;
+          GameProps.menu.incScore(20);
           obstacle.hasPassed = true;
         }
         if (obstacle.posX < -100) {
@@ -151,7 +157,7 @@ function animateGame() {
       }
       if(delBaitIndex >= 0){
         GameProps.baits.splice(delBaitIndex, 1);
-        GameProps.score += 10;
+        GameProps.menu.incScore(10);
       }
 
       break;
@@ -186,8 +192,15 @@ function spawnBait() {
 
 export function startGame () { //export gjør at vi kan bruke funksjonen overalt andre steder i koden ved å skrive import {startGame} from "./FlappyBird.mjs"; i toppen av koden.
   GameProps.status = EGameStatus.playing;
+  // Helten er død, vi må lage en ny helt!
+  GameProps.hero = new THero(spcvs, SpriteInfoList.hero1, new lib2d.TPosition(100, 100));
+  GameProps.obstacles = [];
+  GameProps.baits = [];
+  GameProps.menu.reset();
   spawnObstacle();
   spawnBait();
+  //Spill av lyd
+  GameProps.sounds.running.play();
 }
 
 //--------------- Event Handlers -----------------------------------------//
