@@ -23,6 +23,7 @@ class TObstacle{
         pos.y = top;
         this.#lower = new libSprite.TSprite(aSpriteCanvas, aSpriteInfo, pos);
         this.#lower.index = 2;
+        this.hasPassed = false;
 
     }
 
@@ -43,6 +44,14 @@ update(){
         GameProps.hero.flap();
         GameProps.hero.isDead = true;
     }
+}
+
+get right(){
+    return this.#upper.right;
+}
+
+get left(){
+    return this.#upper.left;
 }
 
 get posX(){

@@ -125,6 +125,14 @@ get posX(){
 
 }  
 
+get left(){
+  return this.#pos.x;
+}
+
+get right(){
+  return this.#pos.x + this.#spi.width;
+}
+
 set posX(aX){
   this.#pos.x = aX;
   this.boundingBox.x = aX;

@@ -118,9 +118,17 @@ function animateGame() {
       }
       GameProps.hero.update();
       let delObstacleIndex = -1;
+      
       for (let i = 0; i < GameProps.obstacles.length; i++) {
         const obstacle = GameProps.obstacles[i];
         obstacle.update();
+        if(obstacle.right < GameProps.hero.left && !obstacle.hasPassed){ 
+        // implisitt deklarasjon her det liker vi ikke, vi har lagd obstacle.hasPassed uten å deklarere den, må lage variabel altså deklarere den først. 
+        // Vi gjør det i obstacle.mjs fila og skriver this.hasPassed = false;. Kommer på eksamen
+          // Congratulations, you have passed the obstacle
+          GameProps.score += 20;
+          obstacle.hasPassed = true;
+        }
         if (obstacle.posX < -100) {
           delObstacleIndex = i;
         }

@@ -15,6 +15,8 @@ export class TMenu{
     #spMedal;
     #posScore;
     #posBestScore;
+    #posPlayScore;
+    #ranking = {first: 0, second: 0, third: 0};
     //#spScore;
     constructor(aSpriteCanvas){
         this.#spcvs = aSpriteCanvas;
@@ -22,7 +24,7 @@ export class TMenu{
         grunnen til at vi kan endre på const konstanten her er fordi vi endrer ikke på new lib2.d.Tposition som definerer const, 
         men heller x,y koordinatene som kan endres uten problemer. /** */
         
-//GameProps.status = EGameStatus.gameOver;
+//GameProps.status = EGameStatus.gameOver; // denne koden brukes for å starte spillet direkte i gameOver istedenfor idle.
 
         this.#spFlappyBird = new libSprite.TSprite(aSpriteCanvas, SpriteInfoList.flappyBird, pos);
 
@@ -58,6 +60,7 @@ export class TMenu{
 
         this.#posScore = new lib2d.TPosition(390, 180); // For scoren i Game Over boksen (Tallet under score)
         this.#posBestScore = new lib2d.TPosition(390, 223); // For best scoren i Game Over boksen (Tallet under best score)
+        this.#posPlayScore = new lib2d.TPosition(75, 50); // For scoren i spillet (Tallet øverst til venstre i spillet)
         
     }
 
@@ -76,17 +79,40 @@ export class TMenu{
                 this.#spinfoText.index = 1;// index 1 fordi vi skal bruke Game Over teksten og ikke Get Ready teksten som ligger i Flappybird.mjs SpriteInfolist koden.
                 this.#spinfoText.draw();
                 this.#spGameOver.draw(); 
-                this.#spMedal.index = 2;// index 2 fordi vi skal bruke gull medalje og ikke sølv som ligger i Flappybird.mjs SpriteInfolist koden. Den har totalt 4 index.
+                this.#spMedal.index = 0;// index 0 fordi vi skal bruke sølv medalje som ligger i  Flappybird.mjs SpriteInfolist koden. Den har totalt 4 index.
                 //this.#spScore.draw();
                 this.#spcvs.drawText("50", this.#posScore);
                 this.#spcvs.drawText("100", this.#posBestScore);
                 this.#spMedal.draw();
                 this.#spButtonPlay.draw();
                 break;
-                
+            case EGameStatus.playing:
+                this.#spcvs.drawText(GameProps.score.toString(), this.#posPlayScore);
+                break;
         }
         
     } // End of draw
+
+    incScore(aScore){
+        GameProps.score += aScore;
+        if(GameProps.score > this.#ranking.first){ // første plass
+            this.#ranking.third = this.#ranking.second;
+            this.#ranking.second = this.#ranking.first;
+            this.#ranking.first = GameProps.score;
+            GameProps.bestScore = this.#ranking.first;
+            this.#spMedal.index = 2;
+        }else if(GameProps.score > this.#ranking.second){ // andre plass
+            this.#ranking.third = this.#ranking.second;
+            this.#ranking.second = GameProps.score;
+            this.#spMedal.index = 1;
+        }else if(GameProps.score > this.#ranking.third){ //tredje plass
+            this.#ranking.third = GameProps.score;
+            this.#spMedal.index = 3;
+        }else{ // ingen plassering
+            this.#spMedal.index = 0;
+        }
+    }
+
 
     // Ikke eksamensrelevant, men viktig for event i canvas (pilfunksjoner er altså ikke eksamensrelevant)    
     #onMouseMove = (aEvent) => {
