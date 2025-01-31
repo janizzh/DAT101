@@ -1,6 +1,7 @@
 "use strict";
 import lib2d from "../../common/libs/lib2d_v2.mjs"
 import libSprite from "../../common/libs/libSprite_v2.mjs"
+import { TColorButton } from "./colorButton.mjs";
 
 //--------------- Objects and Variables ----------------------------------//
 
@@ -20,24 +21,59 @@ const spcvs = new libSprite.TSpriteCanvas(cvs);
 
 export const gameProps = {
   Background: new libSprite.TSprite(spcvs, SpriteInfoList.Background, new lib2d.TPoint(0, 0)),
+  GameCenter: new lib2d.TPosition(SpriteInfoList.Background.width / 2, SpriteInfoList.Background.height / 2),
 
+  ColorButtons:[
+     new TColorButton(spcvs, SpriteInfoList.ButtonYellow),
+     new TColorButton(spcvs, SpriteInfoList.ButtonBlue),
+     new TColorButton(spcvs, SpriteInfoList.ButtonRed),
+     new TColorButton(spcvs, SpriteInfoList.ButtonGreen)],
+  
+  sequence: [],
+  activeButton: null, // Ingen knapp er aktiv i starten
 };
+
 
 //--------------- Functions ----------------------------------------------//
 function loadGame() {
   cvs.width = gameProps.Background.width;
   cvs.height = gameProps.Background.height;
 
+  spawnSequence();
   drawGame();
 }
 
 function drawGame() {
   spcvs.clearCanvas();
   gameProps.Background.draw();
+  //gameProps.ColorButton.draw();
+  for (let i = 0; i < gameProps.ColorButtons.length; i++) {
+    gameProps.ColorButtons[i].draw();
+  // gameProps.ColorButtons.forEach((button) => button.draw());  Kan gjøres på denne måten også for å få det samme resultatet. 
+  }
 
   requestAnimationFrame(drawGame);
 }
 
+function setMouseDown(){
+  gameProps.activeButton.onMouseDown();
+  setTimeout(setMouseUp, 1000);
+}
+
+function setMouseUp(){
+  gameProps.activeButton.onMouseUp();
+}
+
+function spawnSequence(){
+  const index = Math.floor(Math.random() * gameProps.ColorButtons.length); //generer random tall mellom 0 og 3 (4 tall siden vi har 4 knapper)
+  console.log(index)
+  const button = gameProps.ColorButtons[index];
+  gameProps.sequence.push(button);
+  gameProps.activeButton = gameProps.sequence[0];
+  setTimeout(setMouseDown, 1000);
+  
+
+}
 //--------------- Event Handlers -----------------------------------------//
 
 //--------------- Main Code ----------------------------------------------//
