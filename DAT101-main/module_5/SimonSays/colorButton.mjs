@@ -6,6 +6,7 @@ import { gameProps, EGameStatusType } from "./SimonSays.mjs";
 export class TColorButton extends libSprite.TSpriteButton{ // TcolorButton arver fra libSprite.TSpriteButton det er det extends betyr.
   constructor(aSpriteCanvas, aSpriteInfo){
     super(aSpriteCanvas, aSpriteInfo, aSpriteInfo.dst);
+    this.sound = null;
   }
 
 
@@ -29,12 +30,14 @@ isMouseInside(aPoint){
 // Vi må også løse dette med polymorphism, når musa trykkes ned på smultringen.
 onMouseDown(aPoint){
     this.index = 1;
+    this.sound.play();
 
 }
 
 // Vi må også løse dette med polymorphism, når musa slippes opp fra smultringen.
 onMouseUp(aPoint){
     this.index = 0;
+    this.sound.stop();
     if(gameProps.Status !== EGameStatusType.Player){
         return;
     }

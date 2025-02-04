@@ -34,6 +34,8 @@ export const gameProps = {
   sequence: [],
   seqIndex: 0, // Hvilken knapp i sekvensen vi er på
   activeButton: null, // Ingen knapp er aktiv i starten
+  buttonStartEnd: new libSprite.TSpriteButton(spcvs, SpriteInfoList.ButtonStartEnd, 
+    SpriteInfoList.ButtonStartEnd.dst, lib2d.TCircle),
 };
 
 
@@ -41,10 +43,16 @@ export const gameProps = {
 function loadGame() {
   cvs.width = gameProps.Background.width;
   cvs.height = gameProps.Background.height;
-  gameProps.sequence.push(gameProps.ColorButtons[0]); // Simuelerer at vi har en sekvens
-
-  spawnSequence();
+  gameProps.buttonStartEnd.onClick = startGame;
+  setDisabledButtons(true);
   drawGame();
+
+}
+
+function startGame(){
+  gameProps.sequence.push(gameProps.ColorButtons[0]); // Simuelerer at vi har en sekvens
+  spawnSequence();
+
 }
 
 function drawGame() {
@@ -56,7 +64,14 @@ function drawGame() {
   // gameProps.ColorButtons.forEach((button) => button.draw());  Kan gjøres på denne måten også for å få det samme resultatet. 
   }
 
+  gameProps.buttonStartEnd.draw();
   requestAnimationFrame(drawGame);
+}
+
+function setDisabledButtons(aDisabled){
+  for(let i = 0; i < gameProps.ColorButtons.length; i++){
+    gameProps.ColorButtons[i].disable = aDisabled;
+  }
 }
 
 function setMouseDown(){
