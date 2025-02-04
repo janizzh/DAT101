@@ -1,5 +1,6 @@
 "use strict";
 import lib2d from "../../common/libs/lib2d_v2.mjs"
+import libSound from "../../common/libs/libSound.mjs";
 import libSprite from "../../common/libs/libSprite_v2.mjs"
 import { TColorButton } from "./colorButton.mjs";
 
@@ -50,6 +51,13 @@ function loadGame() {
 }
 
 function startGame(){
+  gameProps.buttonStartEnd.visible = false;
+  setDisabledButtons(false);
+  libSound.activateAudioContext();
+  gameProps.ColorButtons[0].sound = new libSound.TSoundWave(4, "C", "sine");
+  gameProps.ColorButtons[1].sound = new libSound.TSoundWave(4, "D", "sine");
+  gameProps.ColorButtons[2].sound = new libSound.TSoundWave(4, "E", "sine");
+  gameProps.ColorButtons[3].sound = new libSound.TSoundWave(4, "F", "sine");
   gameProps.sequence.push(gameProps.ColorButtons[0]); // Simuelerer at vi har en sekvens
   spawnSequence();
 
