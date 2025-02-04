@@ -1,7 +1,7 @@
 "use strict";
 import lib2d from "../../common/libs/lib2d_v2.mjs";
 import libSprite from "../../common/libs/libSprite_v2.mjs";
-import { gameProps, EGameStatusType } from "./SimonSays.mjs";
+import { gameProps, EGameStatusType, spawnSequence } from "./SimonSays.mjs";
 
 export class TColorButton extends libSprite.TSpriteButton{ // TcolorButton arver fra libSprite.TSpriteButton det er det extends betyr.
   constructor(aSpriteCanvas, aSpriteInfo){
@@ -43,8 +43,23 @@ onMouseUp(aPoint){
     }
     if(gameProps.activeButton === this){
       console.log("Riktig knapp");
+      //Hvis vi har flere knapper i sekvensen, velgeneste knapp som aktiv!!!!
+      if(gameProps.seqIndex < gameProps.sequence.length - 1){
+        gameProps.seqIndex++;
+        gameProps.activeButton = gameProps.sequence[gameProps.seqIndex];
+      }else{
+        //Nå er vi på siste knapp i sekvensen, og det er computerens tur
+        spawnSequence();
+      }
+
+
+
+      //Hvis ikke så spawn en ny knapp i sekvensen
     } else{
         console.log("Feil knapp");
+        gameProps.Status = EGameStatusType.gameOver;
+        gameProps.buttonStartEnd.index = 1;
+        gameProps.buttonStartEnd.visible = true;
     }
 }
 

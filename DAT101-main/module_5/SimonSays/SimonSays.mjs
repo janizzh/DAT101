@@ -80,6 +80,11 @@ function setDisabledButtons(aDisabled){
   for(let i = 0; i < gameProps.ColorButtons.length; i++){
     gameProps.ColorButtons[i].disable = aDisabled;
   }
+  if(aDisabled){
+    spcvs.style.cursor = "not-allowed";
+  }else{
+    spcvs.style.cursor = "default";
+  }
 }
 
 function setMouseDown(){
@@ -109,7 +114,7 @@ function setMouseUp(){
 
 }
 
-function spawnSequence(){
+export function spawnSequence(){
   const index = Math.floor(Math.random() * gameProps.ColorButtons.length); //generer random tall mellom 0 og 3 (4 tall siden vi har 4 knapper)
   const button = gameProps.ColorButtons[index];
   gameProps.sequence.push(button);
@@ -118,8 +123,8 @@ function spawnSequence(){
   gameProps.Status = EGameStatusType.Computer;
   setTimeout(setMouseDown, 1000);
   
-
 }
+
 //--------------- Event Handlers -----------------------------------------//
 
 //--------------- Main Code ----------------------------------------------//
