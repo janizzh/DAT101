@@ -37,6 +37,10 @@ export const gameProps = {
   activeButton: null, // Ingen knapp er aktiv i starten
   buttonStartEnd: new libSprite.TSpriteButton(spcvs, SpriteInfoList.ButtonStartEnd, 
     SpriteInfoList.ButtonStartEnd.dst, lib2d.TCircle),
+  GameSpeed: 800,
+  spnRound: new libSprite.TSpriteNumber(spcvs, SpriteInfoList.number, SpriteInfoList.number.dst),
+
+
 };
 
 
@@ -52,13 +56,15 @@ function loadGame() {
 
 function startGame(){
   gameProps.buttonStartEnd.visible = false;
-  setDisabledButtons(false);
   libSound.activateAudioContext();
   gameProps.ColorButtons[0].sound = new libSound.TSoundWave(4, "C", "sine");
   gameProps.ColorButtons[1].sound = new libSound.TSoundWave(4, "D", "sine");
   gameProps.ColorButtons[2].sound = new libSound.TSoundWave(4, "E", "sine");
   gameProps.ColorButtons[3].sound = new libSound.TSoundWave(4, "F", "sine");
   //gameProps.sequence.push(gameProps.ColorButtons[0]); // Simuelerer at vi har en sekvens
+  gameProps.sequence = [];
+  gameProps.GameSpeed = 800;
+  gameProps.spnRound.value = 0; //Vi starter alltid på runde 0
   spawnSequence();
 
 }
@@ -72,6 +78,7 @@ function drawGame() {
   // gameProps.ColorButtons.forEach((button) => button.draw());  Kan gjøres på denne måten også for å få det samme resultatet. 
   }
 
+  gameProps.spnRound.draw();
   gameProps.buttonStartEnd.draw();
   requestAnimationFrame(drawGame);
 }
@@ -89,7 +96,7 @@ function setDisabledButtons(aDisabled){
 
 function setMouseDown(){
   gameProps.activeButton.onMouseDown();
-  setTimeout(setMouseUp, 1000);
+  setTimeout(setMouseUp, gameProps.GameSpeed);
 }
 
 function setMouseUp(){
@@ -107,10 +114,12 @@ function setMouseUp(){
 
  gameProps.activeButton = gameProps.sequence[gameProps.seqIndex];
  if(!done){
-    setTimeout(setMouseDown, 1000);
+    setTimeout(setMouseDown, gameProps.GameSpeed);
  }else{
   gameProps.Status = EGameStatusType.Player; // Nå venter vi på at spilleren skal trykke på en knapp
- }
+  setDisabledButtons(false);
+
+}
 
 }
 
@@ -121,7 +130,15 @@ export function spawnSequence(){
   gameProps.seqIndex = 0;
   gameProps.activeButton = gameProps.sequence[0];
   gameProps.Status = EGameStatusType.Computer;
-  setTimeout(setMouseDown, 1000);
+  setDisabledButtons(true);
+
+
+  setTimeout(setMouseDown, gameProps.GameSpeed);
+  if(gameProps.GameSpeed > 100){
+    gameProps.GameSpeed -= 100;
+  }else{
+    gameProps.GameSpeed = 120;
+  }
   
 }
 

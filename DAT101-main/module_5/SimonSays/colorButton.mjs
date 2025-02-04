@@ -34,8 +34,16 @@ onMouseDown(aPoint){
 
 }
 
+onLeave(aEvent){
+  if(aEvent.buttons !== 0){
+    this.index = 0;
+    this.sound.stop();
+  }
+}
+
 // Vi må også løse dette med polymorphism, når musa slippes opp fra smultringen.
 onMouseUp(aPoint){
+  if(this.index !== 1) return; //Hvis knappen ikke er trykket ned, så gjør ingenting
     this.index = 0;
     this.sound.stop();
     if(gameProps.Status !== EGameStatusType.Player){
@@ -49,6 +57,7 @@ onMouseUp(aPoint){
         gameProps.activeButton = gameProps.sequence[gameProps.seqIndex];
       }else{
         //Nå er vi på siste knapp i sekvensen, og det er computerens tur
+        gameProps.spnRound.value++;
         spawnSequence();
       }
 
