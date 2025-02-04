@@ -58,7 +58,7 @@ function startGame(){
   gameProps.ColorButtons[1].sound = new libSound.TSoundWave(4, "D", "sine");
   gameProps.ColorButtons[2].sound = new libSound.TSoundWave(4, "E", "sine");
   gameProps.ColorButtons[3].sound = new libSound.TSoundWave(4, "F", "sine");
-  gameProps.sequence.push(gameProps.ColorButtons[0]); // Simuelerer at vi har en sekvens
+  //gameProps.sequence.push(gameProps.ColorButtons[0]); // Simuelerer at vi har en sekvens
   spawnSequence();
 
 }
