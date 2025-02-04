@@ -15,9 +15,9 @@ export class TGameBoard{
     constructor(aSpcvs, aSpriteInfo,){
         const pos = new lib2d.TPoint(0,0);
         this.#sptl = new libsSprite.TSprite(aSpcvs, aSpriteInfo.TopLeft, pos);
-        pos.x = aSpriteInfo.TopLeft.width;
+        pos.x = aSpriteInfo.TopLeft.width; //Posisjon for #sptm
         this.#sptm = new libsSprite.TSprite(aSpcvs, aSpriteInfo.TopMiddle, pos);
-        pos.x += aSpriteInfo.TopMiddle.width;
+        pos.x += aSpriteInfo.TopMiddle.width;//Posisjon for #sptr
         this.#sptr = new libsSprite.TSprite(aSpcvs, aSpriteInfo.TopRight, pos);
     }
 
