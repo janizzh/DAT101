@@ -63,10 +63,21 @@ export function newGame() {
   gameProps.tiles.push(rows);
   }
 //Lag alle minene i spillet basert på gameLevel.Mines
-
-
-
+let mineCounter = 0; //Indikerer hvor mange miner som er lagt ut
+do{
+const row = Math.floor(Math.random() * gameLevel.Tiles.Row);
+const col = Math.floor(Math.random() * gameLevel.Tiles.Col);
+const tile = gameProps.tiles[row][col];
+if(!tile.isMine){
+tile.isMine = true;
+mineCounter++;
 }
+
+}while(mineCounter < gameLevel.Mines);
+
+
+} 
+//Eksamen spm Do løkke kjører minst en gang, mens while løkke kjører 0 eller flere ganger, det kommer an på betingelsen. Så her bruker vi do løkke.
 
 
 function drawGame() {
