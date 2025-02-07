@@ -35,6 +35,7 @@ const cvs = document.getElementById("cvs");
 const spcvs = new libSprite.TSpriteCanvas(cvs);
 
 const gameProps = {
+  gameBoard: new libSprite.TSprite(spcvs, SpriteInfoList.Board, new lib2d.TPoint(0, 0)),
   gameBoard: new TGameBoard(spcvs, SpriteInfoList.Board),
 }
 //-----------------------------------------------------------------------------------------
@@ -69,5 +70,3 @@ function drawGame() {
 //-----------------------------------------------------------------------------------------
 
 spcvs.loadSpriteSheet("./media/spriteSheet.png", loadGame);
-
-

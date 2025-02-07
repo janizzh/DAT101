@@ -42,7 +42,7 @@ class TSpriteCanvas {
 
     this.#sprites.every((aSprite) => {
       //Continue to next button if this button is not visible
-      if (aSprite.visible === false) return true;
+      if (aSprite.visible === false || aSprite.disable) return true;
       const isInside = aSprite.isMouseInside(pos);
       if (isInside) {
         newButton = aSprite;
