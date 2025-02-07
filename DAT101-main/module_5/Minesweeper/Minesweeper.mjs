@@ -62,6 +62,9 @@ export function newGame() {
     }
   gameProps.tiles.push(rows);
   }
+//Lag alle minene i spillet basert på gameLevel.Mines
+
+
 
 }
 

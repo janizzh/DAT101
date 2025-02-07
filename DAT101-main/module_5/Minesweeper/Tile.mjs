@@ -21,6 +21,22 @@ export class TTile extends libSprite.TSpriteButton{
     
   }
 
+  onMouseDown(aEvent){
+    this.index = 1;
+  }
+
+  onMouseUp(aEvent){
+    this.index = 2;
+    this.disable = true;
+  }
+
+  onLeave(aEvent){
+    if(aEvent.buttons === 1){
+    this.index = 0;
+    }
+  }
+
+
 }// End of Ttile class
 
 export function forEachTile(aCallBack){
