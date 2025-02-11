@@ -75,8 +75,21 @@ export class TTile extends libSprite.TSpriteButton{
   }
 
   onMouseUp(aEvent){
+    if(this.#isMine){
+    this.index = 4;
+    //Game over :()
+    }else{
     this.index = 2;
+    if (this.#mineInfo === 0) {
+    const neighbors = this.#cell.neighbors;
+    for(let i = 0; i < neighbors.length; i++){
+        const neighbor = neighbors[i];
+        neighbor.OpenUp();
+      }
+    }
+  }
     this.disable = true;
+
   }
 
   onLeave(aEvent){
@@ -92,7 +105,6 @@ export class TTile extends libSprite.TSpriteButton{
     set isMine(aValue){
       this.#isMine = aValue;
       if(aValue){
-      this.index = 4;
       const neighbors = this.#cell.neighbors;
       for(let i = 0; i < neighbors.length; i++ ){
         const neighbor = neighbors[i]; //[i] er syntaks for å hente et element i rekka neighbors (muligens eksamensrelevant)
@@ -108,17 +120,40 @@ export class TTile extends libSprite.TSpriteButton{
         this.#mineInfo = 0;
       }else{
       this.#mineInfo++;
-      this.index = 2; //For å teste at knappen er åpen.
+      
     }
   }
 
+  get isOpen(){
+    if(this.index !== 0 && this.index !== 1){
+      return true;
+    }
+    return false;
+  } // End of class TTile
+
   onCustomDraw(aCTX){
+    if(this.isOpen){
     if(this.#mineInfo > 0){
       const posX = this.x + 17;
       const posY = this.y + 35;
       aCTX.font = "30px serif";
       aCTX.fillStyle = MineInfoColors[this.#mineInfo - 1];
       aCTX.fillText(this.#mineInfo.toString(), posX, posY);
+      }
+    }
+  }
+
+  OpenUp(){
+    if(this.isOpen){
+      return;
+    }
+    this.index = 2;
+    if(this.#mineInfo === 0){
+      const neighbors = this.#cell.neighbors;
+      for(let i = 0; i < neighbors.length; i++){
+        const neighbor = neighbors[i];
+        neighbor.OpenUp();
+      }
     }
   }
 
