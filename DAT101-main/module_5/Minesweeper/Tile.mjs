@@ -5,6 +5,7 @@ import { gameLevel, gameProps } from "./Minesweeper.mjs";
 
 class TCell{
   constructor(aRow, aColumn){
+    
     this.row = aRow;
     this.col = aColumn;
   }
@@ -34,20 +35,24 @@ class TCell{
     for(let rowIndex = rows.from; rowIndex <= rows.to; rowIndex++){
       const row = gameProps.tiles[rowIndex];
       for(let colIndex = cols.from; colIndex <= cols.to; colIndex++){
-        if(this.row !== rowIndex && this.col !== colIndex){
+        const isThisTile = (this.row === rowIndex && this.col === colIndex);
+        //Ikke legg til seg selv!
+          if(!isThisTile){
           const tile = row[colIndex];
           neighbors.push(tile);
         }
       }
     }
+    return neighbors;
 
-
-  }
-}
+  }// End of neighbors
+}//End of class
 
 
 export class TTile extends libSprite.TSpriteButton{
   #isMine;
+  #cell;
+  #mineInfo;
 
   constructor(aSpriteCanvas, aSpriteInfo, aRow, aColumn){
     const cell = new TCell(aRow, aColumn);
@@ -56,6 +61,8 @@ export class TTile extends libSprite.TSpriteButton{
     pos.y += aSpriteInfo.height * cell.row;
     super(aSpriteCanvas, aSpriteInfo, pos);
     this.#isMine = false; //Vi setter at det ikke er en mine som default
+    this.#cell = cell;
+    this.#mineInfo = 0;
     
   }
 
@@ -80,10 +87,37 @@ export class TTile extends libSprite.TSpriteButton{
 
     set isMine(aValue){
       this.#isMine = aValue;
+      if(aValue){
       this.index = 4;
+      const neighbors = this.#cell.neighbors;
+      for(let i = 0; i < neighbors.length; i++ ){
+        const neighbor = neighbors[i]; //[i] er syntaks for å hente et element i rekka neighbors (muligens eksamensrelevant)
+        neighbor.incMineInfo();
+        }
+      this.#mineInfo = 0;
+
+      }
     }
 
-}// End of Ttile class
+    incMineInfo(){
+      if(this.#isMine){
+        this.#mineInfo = 0;
+      }else{
+      this.#mineInfo++;
+      console.log("Mine info: ", this.#mineInfo)
+    }
+  }
+
+  onCustomDraw(aCTX){
+    if(this.#mineInfo > 0){
+      const posX = this.x + 17;
+      const posY = this.y + 35;
+      aCTX.font = "30px serif";
+      aCTX.fillText(this.#mineInfo.toString(), posX, posY);
+    }
+  }
+
+}// End of TTile class
 
 export function forEachTile(aCallBack){
   if(!aCallBack){
