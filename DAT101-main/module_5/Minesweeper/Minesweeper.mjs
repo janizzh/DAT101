@@ -2,6 +2,7 @@
 import lib2d from "../../common/libs/lib2d_v2.mjs";
 import libSprite from "../../common/libs/libSprite_v2.mjs";
 import { TGameBoard } from "./GameBoard.mjs";
+import { TScoreBoard } from "./ScoreBoard.mjs";
 import { TTile, forEachTile } from "./Tile.mjs";
 
 //-----------------------------------------------------------------------------------------
@@ -39,6 +40,7 @@ const selectDifficulty = document.getElementById("selectDifficulty");
 export const gameProps = {
   gameBoard: null,
   tiles: [],
+  scoreboard: null,
 };
 //-----------------------------------------------------------------------------------------
 //----------- functions -------------------------------------------------------------------
@@ -73,6 +75,7 @@ export function newGame() {
       mineCounter++;
     }
   } while (mineCounter <= gameLevel.Mines);
+  gameProps.ScoreBoard = new TScoreBoard(spcvs);
 }
 
 function drawGame() {
@@ -80,6 +83,7 @@ function drawGame() {
   gameProps.gameBoard.draw();
   //Husk å tegne forekomsten av TTile
   forEachTile(drawTile);
+  gameProps.ScoreBoard.draw();
   requestAnimationFrame(drawGame);
 }
 
