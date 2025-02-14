@@ -40,21 +40,26 @@ const selectDifficulty = document.getElementById("selectDifficulty");
 export const gameProps = {
   gameBoard: null,
   tiles: [],
-  scoreboard: null,
+  ScoreBoard: null,
+  openTiles: null,
 };
 //-----------------------------------------------------------------------------------------
 //----------- functions -------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
 function loadGame() {
   newGame();
+  gameProps.ScoreBoard = new TScoreBoard(spcvs);
   drawGame();
 }
 
 //-----------------------------------------------------------------------------------------
 export function newGame() {
+  gameProps.ScoreBoard = new TScoreBoard(spcvs);
+
   cvs.width = gameLevel.Tiles.Col * SpriteInfoList.ButtonTile.width + SpriteInfoList.Board.LeftMiddle.width + SpriteInfoList.Board.RightMiddle.width;
   cvs.height = gameLevel.Tiles.Row * SpriteInfoList.ButtonTile.height + SpriteInfoList.Board.TopMiddle.height + SpriteInfoList.Board.BottomMiddle.height;
   spcvs.updateBoundsRect();
+  spcvs.clearButtons();
   gameProps.gameBoard = new TGameBoard(spcvs, SpriteInfoList.Board, new lib2d.TPoint(0, 0));
   //Lag ny forekomst av TTile
   for (let row = 0; row < gameLevel.Tiles.Row; row++) {
@@ -75,7 +80,9 @@ export function newGame() {
       mineCounter++;
     }
   } while (mineCounter <= gameLevel.Mines);
-  gameProps.ScoreBoard = new TScoreBoard(spcvs);
+  if (gameProps.ScoreBoard !== null); {
+    gameProps.ScoreBoard.reset(); 
+  }
 }
 
 function drawGame() {
@@ -89,6 +96,21 @@ function drawGame() {
 
 function drawTile(aTile) {
   aTile.draw();
+}
+
+export function setGameOver(){
+  //Stoppe Tiden
+  //Åpne alle miner
+  gameProps.ScoreBoard.stopTime();
+  forEachTile(openMines);
+
+}
+
+function openMines(aTile){
+  if(aTile.isMine){
+    aTile.reveal();
+  }
+  aTile.disable = true;
 }
 
 //-----------------------------------------------------------------------------------------
