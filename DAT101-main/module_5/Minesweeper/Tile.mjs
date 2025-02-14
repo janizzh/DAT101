@@ -70,7 +70,7 @@ export class TTile extends libSprite.TSpriteButton {
     }else if(this.index === 3){
       return;
     }
-    
+
     this.index = 1;
     gameProps.ScoreBoard.TSpriteButtonSmiley.index = 1;
   }
@@ -113,6 +113,17 @@ export class TTile extends libSprite.TSpriteButton {
     //TODO: Sjekk om spillet er slutt!, Hint bruke forEachTile
     gameProps.openTiles = 0; //Vi må resette denne, later som om vi ikke har åpnet noen enda.
     forEachTile(this.#countOpenTiles); 
+    //Her er openTiles oppdatert med antall åpne miner
+    //Lag en if test, sjekk om det er flere tiles å åpne, hvis ikke så er spillet slutt!
+    
+    const totalTiles = gameLevel.Tiles.Row * gameLevel.Tiles.Col;
+    const tilesLeft = totalTiles - gameProps.openTiles;
+    console.log(tilesLeft);
+    if(tilesLeft === gameLevel.Mines){
+      gameProps.ScoreBoard.TSpriteButtonSmiley.index = 4;
+      setGameOver();
+    }
+
   }
 
   onLeave(aEvent) {
