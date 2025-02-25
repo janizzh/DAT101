@@ -5,6 +5,8 @@
 //--------------------------------------------------------------------------------------------------------------------
 import lib2D from "../../common/libs/lib2d_v2.mjs";
 import libSprite from "../../common/libs/libSprite_v2.mjs";
+import { TColorPicker } from "./ColorPicker.mjs"; 
+import MastermindBoard from "./MastermindBoard.mjs";
 
 //--------------------------------------------------------------------------------------------------------------------
 //------ Variables, Constants and Objects
@@ -26,7 +28,8 @@ const spcvs = new libSprite.TSpriteCanvas(cvs);
 
 //Add all you game objects here
 export const GameProps = {
- 
+  board: null,
+  colorPickers: [],
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -39,7 +42,11 @@ function newGame() {
 function drawGame(){
   spcvs.clearCanvas();
   //Draw all game objects here, remember to think about the draw order (layers in PhotoShop for example!)
-  
+  GameProps.board.draw();
+  for(let i = 0; i < GameProps.colorPickers.length; i++){
+    const colorPicker = GameProps.colorPickers[i];
+    colorPicker.draw();
+  }
   requestAnimationFrame(drawGame);
 }
 
@@ -52,9 +59,22 @@ function loadGame() {
   //Set canvas with and height to match the sprite sheet
   cvs.width = SpriteInfoList.Board.width;
   cvs.height = SpriteInfoList.Board.height;
+  spcvs.updateBoundsRect();
+  const pos = new lib2D.TPoint(0, 0);
+  GameProps.board = new libSprite.TSprite(spcvs, SpriteInfoList.Board, pos);
+  
+  const ColorKeys = Object.keys(MastermindBoard.ColorPicker);
+  console.log(ColorKeys);
+  for(let i = 0; i < ColorKeys.length; i++){
+    const colorName = ColorKeys[i]; //Color name
+    const colorPicker = new TColorPicker(spcvs, SpriteInfoList.ColorPicker, colorName, i);
+    GameProps.colorPickers.push(colorPicker);
+    }
+
 
   newGame();
   requestAnimationFrame(drawGame); // Start the animation loop
+
 }
 
 
