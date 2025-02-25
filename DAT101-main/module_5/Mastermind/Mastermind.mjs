@@ -30,6 +30,10 @@ const spcvs = new libSprite.TSpriteCanvas(cvs);
 export const GameProps = {
   board: null,
   colorPickers: [],
+  snapTo: {
+    positions: MastermindBoard.ColorAnswer.Row1,
+    distance: 20
+  }
 }
 
 //--------------------------------------------------------------------------------------------------------------------
