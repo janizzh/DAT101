@@ -475,6 +475,11 @@ class TSpriteDraggable extends TSpriteButton {
     this.#offset = null;
     this.#startDragPos = null;
     this.spcvs.style.cursor = "grab";
+  }else{    
+    if(this.onDrop){
+    TShape.onDrop();
+   }
+
   }
 
   onDrag(aPosition) {
