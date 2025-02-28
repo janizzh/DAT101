@@ -36,5 +36,15 @@ export class TColorPicker extends libSprite.TSpriteDraggable { //eksamns spm, hv
     }
     onDrop(){
         GameProps.colorPickers.push(this.clone());
+        const index = GameProps.snapTo.positions.indexOf(aDropPosition);
+        GameProps.snapTo.positions.splice(index, 1);
     }
+
+    onMouseDown(){
+        super.onMouseDown();
+        //Få dene knappen til å være i det øverste laget
+        const index = GameProps.colorPickers.indexOf(this); //henter hvilken index knappen/fargen har i arrayet
+        GameProps.colorPickers.splice(index, 1); //splicer/fjerner knappen/fargen fra arrayet, altså vi tar den ut av arrayet
+        GameProps.colorPickers.push(this); //legger knappen/fargen tilbake i arrayet
+    }   
 } 
