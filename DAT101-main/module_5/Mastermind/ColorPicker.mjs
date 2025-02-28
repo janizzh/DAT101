@@ -44,10 +44,10 @@ export class TColorPicker extends libSprite.TSpriteDraggable {
 
   onMouseDown(){
     super.onMouseDown();
-    //Få denne knappen til å være i det øverste laget
-    const index = GameProps.colorPickers.indexOf(this);
-    GameProps.colorPickers.splice(index, 1);
-    GameProps.colorPickers.push(this);
+    //Få denne knappen til å være i det øverste laget 
+    const index = GameProps.colorPickers.indexOf(this); //henter hvilken index knappen/fargen har i arrayet
+    GameProps.colorPickers.splice(index, 1); //splicer/fjerner knappen/fargen fra arrayet, altså vi tar den ut av arrayet
+    GameProps.colorPickers.push(this); //legger knappen/fargen tilbake i arrayet
     if(this.#snapPos !== null){
       console.log("Pushing snapPos", this.#snapPos);
       GameProps.snapTo.positions.push(this.#snapPos);
