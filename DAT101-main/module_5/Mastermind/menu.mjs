@@ -21,4 +21,8 @@ export class TMenu {
   draw(){
     this.#buttonNewGame.draw();
   }
+
+  onHintClick(){
+    
+  }
 }
